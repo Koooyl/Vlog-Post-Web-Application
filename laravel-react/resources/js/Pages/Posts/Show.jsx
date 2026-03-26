@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { Head } from "@inertiajs/react";
@@ -19,24 +20,30 @@ export default function Show({ auth, post }) {
     setCommentContent("");
   };
 
-  const submitReply = (e, commentId) => {
-    e.preventDefault();
+  const submitReply = (e, postId, commentId) => {
+  e.preventDefault();
 
-    Inertia.post(`/posts/${post.id}/comments`, {
-      comment: replyContents[commentId],
-      parent_id: commentId
-    });
+  // Grab correct input
+  const replyText = replyInputs[commentId];
 
-    setReplyContents({
-      ...replyContents,
-      [commentId]: ""
-    });
+  // Clear input first
+  setReplyInputs({
+    ...replyInputs,
+    [commentId]: ""
+  });
 
-    setShowReply({
-      ...showReply,
-      [commentId]: false
-    });
-  };
+  // Send to backend
+  Inertia.post(`/posts/${postId}/comments`, {
+    comment: replyText,
+    parent_id: commentId
+  });
+
+  // Close reply input
+  setShowReply({
+    ...showReply,
+    [commentId]: false
+  });
+};
 
   return (
     <AuthenticatedLayout user={auth.user}>
@@ -127,34 +134,31 @@ export default function Show({ auth, post }) {
           </button>
 
           {/* REPLY INPUT */}
-          {showReply[comment.id] && (
+          {showReply[reply.id] && (
             <form
-              onSubmit={(e) => submitReply(e, comment.id)}
-              className="flex gap-2 mt-2 ml-11"
+                onSubmit={(e) => submitReply(e, post.id, reply.id)} // pass post.id here
+                className="flex gap-2 mt-1 ml-9"
             >
-
-              <input
+                <input
                 type="text"
-                value={replyContents[comment.id] || ""}
+                value={replyInputs[reply.id] || ""}
                 onChange={(e) =>
-                  setReplyContents({
-                    ...replyContents,
-                    [comment.id]: e.target.value
-                  })
+                    setReplyInputs((prev) => ({
+                    ...prev,
+                    [reply.id]: e.target.value
+                    }))
                 }
                 placeholder="Write a reply..."
-                className="flex-1 border rounded-full px-3 py-1 text-sm"
-              />
-
-              <button
+                className="flex-1 border rounded-full px-3 py-1 text-xs"
+                />
+                <button
                 type="submit"
-                className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm"
-              >
+                className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs"
+                >
                 Reply
-              </button>
-
+                </button>
             </form>
-          )}
+            )}
 
           {/* REPLIES */}
           {comment.replies.length > 0 && (

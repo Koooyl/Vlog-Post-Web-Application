@@ -11,7 +11,11 @@ class PostController extends Controller
     // GET all posts (Inertia page)
     public function index()
     {
-        $posts = Post::with(['user', 'comments.user', 'comments.replies.user'])->get();
+        $posts = Post::with([
+            'user',
+            'comments.user',
+            'comments.replies.user'
+        ])->latest()->get();
 
         return Inertia::render('Posts/Index', [
             'posts' => $posts
@@ -43,7 +47,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'media' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,avi|max:10240',
+            'media' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,webm,ogg|max:51200', // 50 MB,
         ]);
 
         $mediaPath = null;
@@ -59,7 +63,7 @@ class PostController extends Controller
             'media' => $mediaPath,
         ]);
 
-        return redirect()->route('posts.show', $post->id)
+        return redirect()->route('posts.index', $posts->id)
                          ->with('success', 'Post created successfully');
     }
 
