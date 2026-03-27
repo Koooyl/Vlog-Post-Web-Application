@@ -84,7 +84,7 @@ export default function Index({ auth, posts }) {
 
               {/* POST BODY */}
               <div className="px-4 pb-4 space-y-2">
-                {/* POST TITLE (Para sa Lead Programmer) */}
+                {/* POST TITLE */}
                 {post.title && (
                   <h2 className="text-xl font-extrabold text-gray-900 leading-tight tracking-tight">
                     {post.title}
@@ -126,7 +126,7 @@ export default function Index({ auth, posts }) {
                 </div>
               </div>
 
-              {/* ACTION BUTTONS (Like/Comment/Share bar) */}
+              {/* ACTION BUTTONS */}
               <div className="px-4 border-y border-gray-100 flex justify-around py-1">
                 <button className="flex-1 flex items-center justify-center space-x-2 py-2 hover:bg-gray-100 rounded-lg transition font-semibold text-gray-600">
                   <ChatBubbleLeftIcon className="w-5 h-5" />
