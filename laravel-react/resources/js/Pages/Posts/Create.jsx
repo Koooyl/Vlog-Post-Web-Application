@@ -23,13 +23,13 @@ export default function Create({ auth }) {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setMediaFile(file); // STAY
+      setMediaFile(file); 
       setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
   const removeMedia = () => {
-    setMediaFile(null); // STAY
+    setMediaFile(null); 
     setPreviewUrl(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -39,15 +39,15 @@ export default function Create({ auth }) {
     setIsUploading(true);
 
     const formData = new FormData();
-    formData.append("title", title); // STAY
-    formData.append("content", content); // STAY
-    if (mediaFile) formData.append("media", mediaFile); // STAY
+    formData.append("title", title); 
+    formData.append("content", content); 
+    if (mediaFile) formData.append("media", mediaFile); 
 
     Inertia.post("/posts", formData, {
       forceFormData: true,
       onSuccess: () => {
-        setTitle(""); // STAY
-        setContent(""); // STAY
+        setTitle(""); 
+        setContent(""); 
         removeMedia();
         setIsUploading(false);
       },
@@ -80,7 +80,7 @@ export default function Create({ auth }) {
               </div>
             </div>
 
-            {/* TITLE INPUT (STAY) */}
+            {/* TITLE INPUT */}
             <input
               type="text"
               placeholder="Post Title"
@@ -90,7 +90,7 @@ export default function Create({ auth }) {
               required
             />
 
-            {/* CONTENT AREA (STAY) */}
+            {/* CONTENT AREA */}
             <textarea
               placeholder={`What's on your mind, ${auth.user.name.split(' ')[0]}?`}
               value={content}
@@ -118,7 +118,7 @@ export default function Create({ auth }) {
               </div>
             )}
 
-            {/* ACTION BAR - FIXED VIDEO ICON */}
+            {/* ACTION BAR */}
             <div className="border-2 border-gray-100 rounded-xl p-3 flex items-center justify-between bg-gray-50/50">
               <span className="text-sm font-bold text-gray-600 ml-2">Add to your post</span>
               <div className="flex items-center">
@@ -131,7 +131,7 @@ export default function Create({ auth }) {
               </div>
             </div>
 
-            {/* HIDDEN FILE INPUT (STAY) */}
+            {/* HIDDEN FILE INPUT */}
             <input
               type="file"
               ref={fileInputRef}
