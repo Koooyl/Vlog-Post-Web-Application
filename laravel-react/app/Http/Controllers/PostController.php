@@ -13,8 +13,10 @@ class PostController extends Controller
     {
         $posts = Post::with([
             'user',
-            'comments.user',
-            'comments.replies.user'
+            'comments' => function ($query) {
+                $query->whereNull('parent_id')
+                    ->with(['user', 'replies.user']);
+            }
         ])->latest()->get();
 
         return Inertia::render('Posts/Index', [
@@ -63,7 +65,7 @@ class PostController extends Controller
             'media' => $mediaPath,
         ]);
 
-        return redirect()->route('posts.index', $posts->id)
+        return redirect()->route('posts.show', $post->id)
                          ->with('success', 'Post created successfully');
     }
 
