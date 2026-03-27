@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image', // Add this line to allow mass assignment of profile_image
+        'bio', // Add this line to allow mass assignment of bio
     ];
 
     /**

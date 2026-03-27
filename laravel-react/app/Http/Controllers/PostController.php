@@ -65,8 +65,7 @@ class PostController extends Controller
             'media' => $mediaPath,
         ]);
 
-        return redirect()->route('posts.show', $post->id)
-                         ->with('success', 'Post created successfully');
+        return redirect()->route('posts.index')->with('message', 'Post created successfully!');
     }
 
     // Show single post

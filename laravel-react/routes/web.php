@@ -20,14 +20,21 @@ use App\Http\Controllers\ReplyController;
 |
 */
 
+/*
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('login', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
 });
+*/
+
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
